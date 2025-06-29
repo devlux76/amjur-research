@@ -12,6 +12,9 @@
   const auth = createAuthStore()
   const searchStore = createSearchStore()
 
+  // Destructure auth properties for proper Svelte 5 reactivity
+  const { user, loading } = auth
+
   // Provide stores to child components
   setContext('auth', auth)
   setContext('searchStore', searchStore)
@@ -67,12 +70,12 @@
         <SearchResults />
       </div>
     {:else if currentView === 'notebook'}
-      {#if auth.loading}
+      {#if loading}
         <div class="text-center py-12">
           <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
           <p class="text-gray-600">Loading...</p>
         </div>
-      {:else if auth.user}
+      {:else if user}
         <Notebook />
       {:else}
         <div class="text-center py-12">
