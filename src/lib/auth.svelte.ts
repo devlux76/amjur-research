@@ -1,86 +1,90 @@
 import { supabase } from './supabase'
 import type { User } from '@supabase/supabase-js'
 
-class AuthStore {
-  user = $state<User | null>(null)
-  loading = $state(true)
-  error = $state<string | null>(null)
-  private initPromise: Promise<void>
+export function createAuthStore() {
+  let user = $state<User | null>(null)
+  let loading = $state(true)
+  let error = $state<string | null>(null)
+  let initPromise: Promise<void>
 
-  constructor() {
-    this.initPromise = this.initialize()
-  }
-
-  private async initialize() {
+  async function initialize() {
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      this.user = session?.user ?? null
+      user = session?.user ?? null
       
       supabase.auth.onAuthStateChange((event, session) => {
         queueMicrotask(() => {
-          this.user = session?.user ?? null
-          this.loading = false
+          user = session?.user ?? null
+          loading = false
         })
       })
-    } catch (error) {
-      console.error('Auth initialization error:', error)
-      this.error = 'Failed to initialize authentication'
+    } catch (err) {
+      console.error('Auth initialization error:', err)
+      error = 'Failed to initialize authentication'
     } finally {
-      this.loading = false
+      loading = false
     }
   }
 
-  // Expose the initialization promise
-  async waitForInitialization() {
-    return this.initPromise
+  // Initialize immediately
+  initPromise = initialize()
+
+  async function waitForInitialization() {
+    return initPromise
   }
 
-  async signUp(email: string, password: string) {
+  async function signUp(email: string, password: string) {
     try {
-      this.error = null
-      const { data, error } = await supabase.auth.signUp({
+      error = null
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password
       })
       
-      if (error) throw error
+      if (signUpError) throw signUpError
       return data
-    } catch (error: any) {
-      this.error = error.message
-      throw error
+    } catch (err: any) {
+      error = err.message
+      throw err
     }
   }
 
-  async signIn(email: string, password: string) {
+  async function signIn(email: string, password: string) {
     try {
-      this.error = null
-      const { data, error } = await supabase.auth.signInWithPassword({
+      error = null
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password
       })
       
-      if (error) throw error
+      if (signInError) throw signInError
       return data
-    } catch (error: any) {
-      this.error = error.message
-      throw error
+    } catch (err: any) {
+      error = err.message
+      throw err
     }
   }
 
-  async signOut() {
+  async function signOut() {
     try {
-      this.error = null
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
-    } catch (error: any) {
-      this.error = error.message
-      throw error
+      error = null
+      const { error: signOutError } = await supabase.auth.signOut()
+      if (signOutError) throw signOutError
+    } catch (err: any) {
+      error = err.message
+      throw err
     }
+  }
+
+  return {
+    get user() { return user },
+    get loading() { return loading },
+    get error() { return error },
+    waitForInitialization,
+    signUp,
+    signIn,
+    signOut
   }
 }
 
-export function createAuthStore() {
-  return new AuthStore()
-}
-
-export type { AuthStore }
+export type AuthStore = ReturnType<typeof createAuthStore>
