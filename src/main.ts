@@ -1,8 +1,18 @@
 import './app.css'
 import App from './App.svelte'
+import { auth } from './lib/auth.svelte.ts'
 
-const app = App({
-  target: document.getElementById('app')!,
-})
+async function initApp() {
+  // Wait for auth store to be fully initialized
+  await auth.waitForInitialization()
+  
+  // Now mount the app
+  const app = App({
+    target: document.getElementById('app')!,
+  })
+  
+  return app
+}
 
-export default app
+// Initialize the app
+initApp().catch(console.error)

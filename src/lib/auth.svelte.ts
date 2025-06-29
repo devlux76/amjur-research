@@ -5,9 +5,10 @@ class AuthStore {
   user = $state<User | null>(null)
   loading = $state(true)
   error = $state<string | null>(null)
+  private initPromise: Promise<void>
 
   constructor() {
-    this.initialize()
+    this.initPromise = this.initialize()
   }
 
   private async initialize() {
@@ -25,6 +26,11 @@ class AuthStore {
     } finally {
       this.loading = false
     }
+  }
+
+  // Expose the initialization promise
+  async waitForInitialization() {
+    return this.initPromise
   }
 
   async signUp(email: string, password: string) {
