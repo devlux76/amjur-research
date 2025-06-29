@@ -17,8 +17,10 @@ class AuthStore {
       this.user = session?.user ?? null
       
       supabase.auth.onAuthStateChange((event, session) => {
-        this.user = session?.user ?? null
-        this.loading = false
+        queueMicrotask(() => {
+          this.user = session?.user ?? null
+          this.loading = false
+        })
       })
     } catch (error) {
       console.error('Auth initialization error:', error)
