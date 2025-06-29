@@ -1,11 +1,20 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { auth } from './lib/auth.svelte.ts'
+  import { onMount, setContext } from 'svelte'
+  import { createAuthStore, type AuthStore } from './lib/auth.svelte.ts'
+  import { createSearchStore, type SearchStore } from './lib/search.svelte.ts'
   import Header from './lib/components/Header.svelte'
   import SearchBox from './lib/components/SearchBox.svelte'
   import SearchResults from './lib/components/SearchResults.svelte'
   import AuthModal from './lib/components/AuthModal.svelte'
   import Notebook from './lib/components/Notebook.svelte'
+
+  // Create store instances within component context
+  const auth = createAuthStore()
+  const searchStore = createSearchStore()
+
+  // Provide stores to child components
+  setContext('auth', auth)
+  setContext('searchStore', searchStore)
 
   let showAuthModal = false
   let currentView: 'search' | 'notebook' = 'search'
@@ -26,8 +35,9 @@
     currentView = 'search'
   }
 
-  onMount(() => {
-    // Auth is initialized automatically in the auth store
+  onMount(async () => {
+    // Wait for auth initialization
+    await auth.waitForInitialization()
   })
 </script>
 

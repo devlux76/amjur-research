@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { auth } from '../auth.svelte.ts'
+  import { getContext } from 'svelte'
+  import type { AuthStore } from '../auth.svelte.ts'
   
   interface Props {
     onAuthClick: () => void
@@ -8,6 +9,8 @@
   }
   
   let { onAuthClick, onNotebookClick, currentView }: Props = $props()
+
+  const auth = getContext<AuthStore>('auth')
 
   async function handleSignOut() {
     try {

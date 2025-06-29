@@ -1,7 +1,10 @@
 <script lang="ts">
-  import { searchStore } from '../search.svelte.ts'
-  import { auth } from '../auth.svelte.ts'
-  import { onMount } from 'svelte'
+  import { getContext, onMount } from 'svelte'
+  import type { SearchStore } from '../search.svelte.ts'
+  import type { AuthStore } from '../auth.svelte.ts'
+
+  const searchStore = getContext<SearchStore>('searchStore')
+  const auth = getContext<AuthStore>('auth')
 
   onMount(() => {
     if (auth.user) {

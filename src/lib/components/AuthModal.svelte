@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { auth } from '../auth.svelte.ts'
+  import { getContext } from 'svelte'
+  import type { AuthStore } from '../auth.svelte.ts'
   
   interface Props {
     isOpen: boolean
@@ -7,6 +8,8 @@
   }
   
   let { isOpen, onClose }: Props = $props()
+  
+  const auth = getContext<AuthStore>('auth')
   
   let mode: 'signin' | 'signup' = 'signin'
   let email = ''

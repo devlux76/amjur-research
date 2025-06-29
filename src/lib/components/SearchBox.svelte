@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { searchStore } from '../search.svelte'
+  import { getContext } from 'svelte'
+  import type { SearchStore } from '../search.svelte.ts'
+  
+  const searchStore = getContext<SearchStore>('searchStore')
   
   let searchInput = ''
   let inputRef: HTMLInputElement

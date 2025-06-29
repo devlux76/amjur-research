@@ -129,4 +129,8 @@ class SearchStore {
   }
 }
 
-export const searchStore = new SearchStore()
+export function createSearchStore() {
+  return new SearchStore()
+}
+
+export type { SearchStore }

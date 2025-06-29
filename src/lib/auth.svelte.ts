@@ -79,4 +79,8 @@ class AuthStore {
   }
 }
 
-export const auth = new AuthStore()
+export function createAuthStore() {
+  return new AuthStore()
+}
+
+export type { AuthStore }
