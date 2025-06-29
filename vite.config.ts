@@ -4,7 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [
-    svelte(),
+    svelte({
+      include: ['src/**/*.svelte', 'src/**/*.svelte.ts']
+    }),
     tailwindcss()
   ],
   server: {
