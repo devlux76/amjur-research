@@ -66,12 +66,12 @@
     <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 fade-in">
       <div class="text-center mb-8">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">
-          {mode === 'signin' ? 'Welcome back' : 'Create account'}
+          {mode === 'signin' ? 'Welcome back to' : 'Join'} <span class="text-primary-600">re:</span> search
         </h2>
         <p class="text-gray-600">
           {mode === 'signin' 
-            ? 'Sign in to access your search notebook' 
-            : 'Sign up to start saving your searches'}
+            ? 'Sign in to access your research notes' 
+            : 'Create your account to start building your research library'}
         </p>
       </div>
 
@@ -87,7 +87,7 @@
             onkeypress={handleKeyPress}
             required
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-            placeholder="Enter your email"
+            placeholder="Enter your professional email"
             disabled={loading}
           />
         </div>
@@ -142,7 +142,7 @@
           disabled={loading}
         >
           {mode === 'signin' 
-            ? "Don't have an account? Sign up" 
+            ? "New to re: search? Create account" 
             : 'Already have an account? Sign in'}
         </button>
       </div>

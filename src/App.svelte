@@ -42,11 +42,14 @@
     {#if currentView === 'search'}
       <div class="flex flex-col items-center justify-center min-h-[60vh]">
         <div class="text-center mb-12">
-          <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            Search & Save
+          <h1 class="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
+            <span class="text-primary-600">re:</span> search
           </h1>
-          <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-            Search the web and build your personal knowledge notebook
+          <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Professional research made simple. Search, save, and organize your findings in one place.
+          </p>
+          <p class="text-lg text-gray-500 mt-4">
+            Because great research deserves great tools.
           </p>
         </div>
 
@@ -58,13 +61,13 @@
         <Notebook />
       {:else}
         <div class="text-center py-12">
-          <h2 class="text-2xl font-bold text-gray-900 mb-4">Access Your Notebook</h2>
-          <p class="text-gray-600 mb-8">Sign in to view your saved searches</p>
+          <h2 class="text-2xl font-bold text-gray-900 mb-4">Access Your Research Notes</h2>
+          <p class="text-gray-600 mb-8">Sign in to view your saved research and findings</p>
           <button
             onclick={openAuthModal}
             class="bg-primary-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-700 transition-colors"
           >
-            Sign in
+            Sign in to continue
           </button>
         </div>
       {/if}

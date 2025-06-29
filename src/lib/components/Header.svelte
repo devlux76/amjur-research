@@ -23,7 +23,7 @@
     <div class="flex justify-between items-center h-16">
       <div class="flex items-center space-x-8">
         <h1 class="text-xl font-bold text-gray-900">
-          SearchNotebook
+          <span class="text-primary-600">re:</span> search
         </h1>
         
         {#if auth.user}
@@ -44,7 +44,7 @@
                        ? 'text-primary-700 bg-primary-50' 
                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}"
             >
-              Notebook
+              Research Notes
             </button>
           </nav>
         {/if}
