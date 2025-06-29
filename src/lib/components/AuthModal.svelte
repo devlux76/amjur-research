@@ -19,7 +19,9 @@
     localError = ''
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault()
+    
     if (!email || !password) {
       localError = 'Please fill in all fields'
       return
@@ -47,7 +49,10 @@
 
   function handleKeyPress(event: KeyboardEvent) {
     if (event.key === 'Enter') {
-      handleSubmit()
+      const form = event.target?.closest('form')
+      if (form) {
+        form.requestSubmit()
+      }
     }
   }
 
@@ -75,7 +80,7 @@
         </p>
       </div>
 
-      <form onsubmit|preventDefault={handleSubmit} class="space-y-6">
+      <form onsubmit={handleSubmit} class="space-y-6">
         <div>
           <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
             Email address
