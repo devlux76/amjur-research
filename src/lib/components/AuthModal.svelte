@@ -61,6 +61,8 @@
       onClose()
     }
   }
+
+  export {}
 </script>
 
 {#if isOpen}
