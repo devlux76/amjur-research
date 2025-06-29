@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { auth } from '../auth.svelte'
+  import { auth } from '../auth.svelte.ts'
   
   interface Props {
     onAuthClick: () => void

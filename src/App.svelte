@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { auth } from './lib/auth.svelte'
+  import { auth } from './lib/auth.svelte.ts'
   import Header from './lib/components/Header.svelte'
   import SearchBox from './lib/components/SearchBox.svelte'
   import SearchResults from './lib/components/SearchResults.svelte'

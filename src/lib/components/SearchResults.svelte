@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { searchStore } from '../search.svelte'
-  import { auth } from '../auth.svelte'
-  import type { SearchResult } from '../search.svelte'
+  import { searchStore } from '../search.svelte.ts'
+  import { auth } from '../auth.svelte.ts'
+  import type { SearchResult } from '../search.svelte.ts'
 
   async function saveResult(result: SearchResult) {
     if (!auth.user) return

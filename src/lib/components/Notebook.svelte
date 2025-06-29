@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { searchStore } from '../search.svelte'
-  import { auth } from '../auth.svelte'
+  import { searchStore } from '../search.svelte.ts'
+  import { auth } from '../auth.svelte.ts'
   import { onMount } from 'svelte'
 
   onMount(() => {
