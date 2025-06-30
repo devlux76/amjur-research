@@ -98,6 +98,7 @@
             <button
               onclick={() => deleteSearch(search.id)}
               class="ml-4 text-gray-400 hover:text-error-600 transition-colors p-1"
+              aria-label="Delete search note"
               title="Remove from research notes"
             >
               <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
