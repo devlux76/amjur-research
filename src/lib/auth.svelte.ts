@@ -1,41 +1,42 @@
 import { supabase } from './supabase'
 import type { User } from '@supabase/supabase-js'
 
-export function createAuthStore() {
-  let user = $state<User | null>(null)
-  let loading = $state(true)
-  let error = $state<string | null>(null)
-  let initPromise: Promise<void>
+// Create module-level reactive state
+export const auth = $state({
+  user: null as User | null,
+  loading: true,
+  error: null as string | null,
+  initPromise: null as Promise<void> | null,
 
-  async function initialize() {
+  async initialize() {
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      user = session?.user ?? null
+      this.user = session?.user ?? null
       
       supabase.auth.onAuthStateChange((event, session) => {
         queueMicrotask(() => {
-          user = session?.user ?? null
-          loading = false
+          this.user = session?.user ?? null
+          this.loading = false
         })
       })
     } catch (err) {
       console.error('Auth initialization error:', err)
-      error = 'Failed to initialize authentication'
+      this.error = 'Failed to initialize authentication'
     } finally {
-      loading = false
+      this.loading = false
     }
-  }
+  },
 
-  // Initialize immediately
-  initPromise = initialize()
+  async waitForInitialization() {
+    if (!this.initPromise) {
+      this.initPromise = this.initialize()
+    }
+    return this.initPromise
+  },
 
-  async function waitForInitialization() {
-    return initPromise
-  }
-
-  async function signUp(email: string, password: string) {
+  async signUp(email: string, password: string) {
     try {
-      error = null
+      this.error = null
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password
@@ -44,14 +45,14 @@ export function createAuthStore() {
       if (signUpError) throw signUpError
       return data
     } catch (err: any) {
-      error = err.message
+      this.error = err.message
       throw err
     }
-  }
+  },
 
-  async function signIn(email: string, password: string) {
+  async signIn(email: string, password: string) {
     try {
-      error = null
+      this.error = null
       const { data, error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -60,31 +61,24 @@ export function createAuthStore() {
       if (signInError) throw signInError
       return data
     } catch (err: any) {
-      error = err.message
+      this.error = err.message
       throw err
     }
-  }
+  },
 
-  async function signOut() {
+  async signOut() {
     try {
-      error = null
+      this.error = null
       const { error: signOutError } = await supabase.auth.signOut()
       if (signOutError) throw signOutError
     } catch (err: any) {
-      error = err.message
+      this.error = err.message
       throw err
     }
   }
+})
 
-  return {
-    get user() { return user },
-    get loading() { return loading },
-    get error() { return error },
-    waitForInitialization,
-    signUp,
-    signIn,
-    signOut
-  }
-}
+// Initialize immediately
+auth.waitForInitialization()
 
-export type AuthStore = ReturnType<typeof createAuthStore>
+export type AuthStore = typeof auth
